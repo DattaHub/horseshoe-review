@@ -16,5 +16,4 @@ optimality, (ii) efficiency and scalability of computation and
 (iii) methodological development and performance in high-dimensional
 inference for the Gaussian sparse model and beyond.
 
-### Keywords: Sparsity; Regression; lasso; global-local priors; horseshoe;
-horseshoe+; regularization; Hyper-parameter tuning.
+### Keywords: Sparsity; Regression; lasso; global-local priors; horseshoe; horseshoe+; regularization; Hyper-parameter tuning.
