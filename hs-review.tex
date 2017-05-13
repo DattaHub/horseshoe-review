@@ -48,7 +48,8 @@
 \allowdisplaybreaks
 
 \include{math-commands}
-\graphicspath{{../../figures/}{../figures/}{./figures/}{./figs}{./}}
+%\graphicspath{{../../figures/}{../figures/}{./figures/}{./figs}{./}}
+\graphicspath{{./figs/}}
 
 \title{Lasso Meets Horseshoe}
 
@@ -67,7 +68,7 @@ Business}
 \begin{abstract}
 \baselineskip=15pt
 \noindent %We review Bayesian and classical approaches to regularization problems. 
-The goal of the paper is to survey the major advances for Lasso and Horseshoe, which are sparse signal recovery regularisation methodologies. Lasso and its variants are a gold standard for selecting the best subset of predictors while Horseshoe is a state-of-the-art Bayesian procedure. Lasso has the advantage of being a scalable convex optimization method whilst the Horseshoe penalty is non-convex and the estimator is the posterior mean that minimizes Bayes risk under quadratic loss.  We provide a novel view from three aspects, (i) theoretical optimality, (ii) efficiency and scalability of computation and (iii) methodological development and performance in high dimensional inference for the Gaussian sparse model and beyond. 
+The goal of our paper is to survey the major advances for Lasso and Horseshoe sparse signal recovery regularisation methodologies. Lasso and its variants are a gold standard for best subset selection of predictors while Horseshoe is a state-of-the-art Bayesian estimator for sparse signals. Lasso is scalable and fast using convex optimization whilst the Horseshoe penalty is non-convex with theoretical guarantees of minimizing the Bayes risk under quadratic loss.  Our novel perspective focuses on three aspects, (i) efficiency and scalability of computation and (ii) methodological development and performance and (iii) theoretical optimality in high dimensional inference for the Gaussian sparse model and beyond. 
 
 
 {\bf Keywords:} Sparsity; Regression; lasso; global-local priors; horseshoe; horseshoe+; regularization; Hyper-parameter tuning. 
@@ -93,18 +94,18 @@ The goal of the paper is to survey the major advances for Lasso and Horseshoe, w
 
 %The problem of sparse parameter estimation in high-dimensional models has featured prominently in modern statistics literature for at least the two previous decades. While the general area is too large to cover in a single review article, and entire books have been written on the subject \citep[see, e.g., ][]{hastie09}, the goal of this review article is more modest, if not more specific. We revisit at least two distinct approaches to sparse parameter estimation problems, primarily from a Bayesian point of view. The first of these assumes exact zeros in the model, necessitating the use of the so-called selection based approaches. The second operates on the view that while certain parameters might be small, an assumption of exact zeros is untenable, both philosophically and computationally. 
 
-High-dimensional variable selection and sparse signal recovery has become a routine in many applications in Statistics and machine learning. This has led to a vast growing literature for both frequentist and Bayesian methodologies and computation to provide large scale inference estimators. Whilst the general area is too large to cover in a single review article, we revisit at least two popular approaches to sparse parameter estimation problems, the classical Lasso \citep{tibshirani96} and the Bayes horseshoe estimator \citep{carvalho2010horseshoe}. We compare and contrast three main areas: performance in high-dimensional data, theoretical optimality and computational efficiency. 
+High-dimensional variable selection and sparse signal recovery has become routine practice in many Statistics and machine learning applications. This has led to a vast growing literature for both frequentist and Bayesian methodologies for computation of large scale inference estimators. Whilst the general area is too large to cover in a single review article, we revisit two popular approaches to sparse parameter estimation problems, the classical Lasso \citep{tibshirani96} and the Bayes horseshoe estimator \citep{carvalho2010horseshoe}. We compare and contrast three areas: performance in high-dimensional data, theoretical optimality and computational efficiency. 
 
-Formal definitions of sparsity and ultra-sparsity relates to the property of a few large signals among many zero or nearly zero noisy observations. A common goal in high dimensional inference problems is to identify the low-dimensional signals observed in white noise, i.e. to identify subset of hypotheses that show significant deviation from the null hypotheses. This encompasses three related, yet different areas: 
+Formal definitions of sparsity and ultra-sparsity relies on the property of a few large signals among many zero or nearly zero noisy observations. A common goal in high dimensional inference problems is to identify the low-dimensional signals observed in white noise. This encompasses three related, yet different areas: 
 \ben
 \item Estimation of the underlying sparse parameter vector. 
 \item Multiple testing where the number of tests is much larger than the sample size, and 
-\item Linear model where the number of covariates $p$ is much larger than the sample size $n$. 
+\item Subset selection in linear model where the number of covariates $p$ is much larger than the sample size $n$. 
 \een
 
-There is a rich variety of methodologies for high-dimensional inference based on regularisation that works by implicitly or explicitly penalizing models based on their dimensions. One of the most popular methods, Lasso (acronym for Least Absolute Shrinkage and Selection Operator) produces a sparse point estimate by constraining the $\ell_1$ norm of the coefficient vector. Lasso's widespread popularity is due to its computational efficiency based on the Least Angle Regression method due to \cite{efron_least_2004} as well as its ability to produce a sparse solution, with optimality properties for both estimation and variable selection. \cite{buhlmann2011statistics, james2013introduction, hastie2015statistical} provide excellent references for different aspects of Lasso and its various modifications. \par 
+Current research provides a rich variety of methodologies for high-dimensional inference based on regularisation which implicitly or explicitly penalizes models based on their dimensionality. The gold standard is Lasso (acronym for Least Absolute Shrinkage and Selection Operator) that produces a sparse point estimate by constraining the $\ell_1$ norm of the parameter vector. Lasso's widespread popularity is due to its computational efficiency based on the Least Angle Regression method due to \cite{efron_least_2004} as well as its ability to produce a sparse solution, with optimality properties for both estimation and variable selection. \cite{buhlmann2011statistics, james2013introduction, hastie2015statistical} provide excellent references for different aspects of Lasso and its various modifications. \par 
 
-The Bayesian alternatives to the sparse signal-recovery problem for high dimensional data can be broadly classified into two categories: discrete mixtures or ``two-groups" model or ``spike-and-slab" priors (vide \citet{johnstone2004needles,efron2010large,efron2008microarrays,bogdan2011asymptotic}) and shrinkage priors \cite{armagan2011generalized,armagan2013generalized,carvalho2009handling,carvalho2010horseshoe,griffin2005alternative,polson2010shrink,castillo2012needles}). The first approach is based on putting a point mass at zero and an absolutely continuous prior on the non-zero elements of the parameter vector.  The second approach entails putting absolutely continuous shrinkage priors on the entire parameter vector, that shrink the entire coefficient towards zero. Both these approaches have their own advantages, and we discuss the trade-offs associated with choosing one over the other a little later.  It should also be noted that most of the penalization approaches can be interpreted in a Bayesian sense, by considering the mode of the posterior distribution under an appropriate shrinkage prior. 
+Bayesian alternatives are numerous and can be broadly classified into two categories: discrete mixtures or ``two-groups" model or ``spike-and-slab" priors (vide \citet{johnstone2004needles,efron2010large,efron2008microarrays,bogdan2011asymptotic}) and shrinkage priors \cite{armagan2011generalized,armagan2013generalized,carvalho2009handling,carvalho2010horseshoe,griffin2005alternative,polson2010shrink,castillo2012needles}). The first approach places a point mass at zero and an absolutely continuous prior on the non-zero elements of the parameter vector.  The second approach entails placing absolutely continuous shrinkage priors on the entire parameter vector, that shrink the entire coefficient towards zero. Both these approaches have their own advantages, and we discuss the trade-offs associated with choosing one over the other a little later.  It should also be noted that most of the penalization approaches can be interpreted in a Bayesian sense, by considering the mode of the posterior distribution under an appropriate shrinkage prior. 
 
 %Ultra-sparse signal detection provides a challenge for developing statistical estimators. 
 %\subsection{Nearly black normal means model: minimax rate in estimation and optimal rate in testing}
@@ -126,13 +127,13 @@ We now turn to the problem of variable selection in sparse regression.
 \end{align}
  The most popular of these methods is the Lasso that uses an $\ell_1$ penalty, i.e. $p_{\lambda}(\theta_j) = -\lambda \abs{\theta_j}$, that simultaneously performs variable selection while maintaining estimation accuracy. Another notable variant is the best subset selection procedure corresponding to the $\ell_0$ penalty $p_{\lambda}(\theta_j) = -\lambda \1\{\theta_j \ne 0\}$. There has been a recent emphasis on non-concave separable penalties such as MCP \citep{zhang2010nearly} or SCAD \citep{fan2001variable}, that also act as a tool for variable selection and estimation. Penalized methods can also be treated as finding the posterior mode under a prior which relates to the penalty in \eqref{eq:penalize} via $p_{\lambda}(\btheta) = -\log(\pi(\btheta))$. We discuss the penalization methods from a Bayesian viewpoint in the next section. 
 
-\paragraph{Variable Selection:} The problem of variable selection or model selection is intimately related to the sparse linear regression.  A sparse model provides interpretability, computational efficiency, and stability of inference.  In fact, the ``bet on sparsity'' principle \citep{hastie09} dictates us to use methods that favours sparsity, since no method does well when the true is dense. Lasso's success has inspired many learning methods relying on convexity and sparsity that are built on this philosophy. 
+\paragraph{Variable Selection:} Variable or model selection is intimately related to high-dimensional sparse linear regression.  A sparse model provides interpretability, computational efficiency, and stability of inference.  The ``bet on sparsity'' principle \citep{hastie09} dictates the use of methods favouring sparsity as no method does uniformly well when the true is dense. Lasso's success has inspired many estimation methods that rely on convexity and sparsity that entails. 
 
-There has also been a parallel surge of Bayesian methods for sparse regression problems with an underlying variable selection procedure. A typical hierarchical Bayesian method proceeds by selecting a model dimension $s$, selecting a random subset $S$ of dimension $\abs{S} = s$ and a prior $\pi_S$ on $\mathbb{R}^{S}$. The prior can be written as \cite{castillo2015bayesian}:
+A parallel surge of Bayesian methods has also been undertaken for sparse regression problems with an underlying variable selection procedure. A typical hierarchical Bayesian method proceeds by selecting a model dimension $s$, selecting a random subset $S$ of dimension $\abs{S} = s$ and a prior $\pi_S$ on $\mathbb{R}^{S}$. The prior can be written as \cite{castillo2015bayesian}:
 \beq
 (S,\btheta) \mapsto \pi_p(\abs{S}) \frac{1}{\binom{p}{\abs{S}}} \pi_S(\btheta_S)\delta_{0}(\btheta_{S^c}) \label{eq:bayes-hier}
 \eeq
-Bayesian methods using similar approaches for sparse linear regression include \citep{george2000variable,George0000, mitchell88, ishwaran2005spike} and more recently \cite{rovckova2016spike}, who introduced the spike-and-slab Lasso prior. In \cite{rovckova2016spike}'s formulation, the hierarchical prior on the parameter and model spaces assumes the form:
+Bayesian approaches for sparse linear regression include \citep{george2000variable,George0000, mitchell88, ishwaran2005spike} and more recently \cite{rovckova2016spike}, who introduced the spike-and-slab Lasso prior, where the hierarchical prior on the parameter and model spaces assumes the form:
 \beq
 \pi(\btheta \mid \gamma) = \prod_{i=1}^{p} [\gamma_i \pi_1(\theta_i) + (1-\gamma_i) \pi_0(\theta_i)], \quad \gamma \sim p(\cdot), \label{eq:ssl}
 \eeq
@@ -153,7 +154,9 @@ We would also like to point out that the estimators resulting from these one-gro
 %Explain $\phi(\theta)$ for horseshoe etc. 
 \subsection{Bayesian Regularization : A Useful Duality}
 
-Regularization requires the researcher to specify a measure of fit, denoted by $l(\theta)$ and a penalty function, denoted by $ \phi(\theta)$. Probabilistically,  $l(\theta)$ and $\text{pen}_{\lambda}(\theta)$ correspond to the negative logarithms of the likelihood and prior distribution, respectively.  Regularization leads to an optimization problem of the form 
+Regularization requires the researcher to specify a measure of fit, denoted by $l(\theta)$ and a penalty function, denoted by $ \phi(\theta)$. Probabilistically,  $l(\theta)$ and $\text{pen}_{\lambda}(\theta)$ correspond to the negative logarithms of the likelihood and prior distribution, respectively.  
+
+Regularization leads to an optimization problem of the form 
 \begin{equation}
 \label{eqn:reg}
 \begin{aligned}
@@ -167,7 +170,7 @@ p(y \mid \theta) \propto \exp\{-l(\theta)\} \; , \quad p_{\lambda}(\theta) \prop
 \eeq
 The solution to the minimisation problem estimated by regularisation (\ref{eqn:reg}) corresponds to the posterior mode, $ \hat{\theta} = {\rm arg \; max}_\theta \; p( \theta|y) $, where $ p(\theta|y)$ denotes the posterior distribution \citep{polson2015mixtures}. The properties of the penalty are then induced by those of the prior. For example, regression with a least squares log-likelihood subject to a penalty such as an $\ell_2$-norm (ridge) \citep{hoerl70} Gaussian probability model or $\ell_1$-norm (lasso) \citep{tibshirani96} double exponential probability model. 
 
-One can think of the lasso and related $L^1$ penalty based methods as trying to perform selection, while ridge and related $\ell_2$ based methods perform shrinkage. Selection-based methods such as the lasso are unstable in many situations, e.g., in presence of multicollinearity in the design. Shrinkage often wins in terms of predictive performance. But shrinkage methods do not give exact zeros, which is preferred over dichotomous models by some practitioners \citep{stephens2009bayesian}. Thus, both selection and shrinkage have their advantages and disadvantages. 
+One interpretation of Lasso and related $L^1$ penalties are methods designed to perform selection, while ridge and related $\ell_2$ based methods perform shrinkage. Selection-based methods such as the lasso are unstable in many situations, e.g., in presence of multicollinearity in the design. Shrinkage often wins in terms of predictive performance. But shrinkage methods do not give exact zeros, which is preferred over dichotomous models by some practitioners \citep{stephens2009bayesian}. Thus, both selection and shrinkage have their advantages and disadvantages. 
 
 \subsection{Lasso Penalty and Prior}\label{sec:lasso}
 
@@ -176,11 +179,11 @@ The Lasso based estimate of $\btheta$ is the value of $\btheta$ that maximizes t
 (\text{Penalty}): \; \text{pen}_{\lambda}(\btheta) = \lambda \sum_{j = 1}^{p} \abs{\theta_j} \; \equiv \; \pi_{\lambda}(\btheta) = \exp( - \lambda \sum_{j = 1}^{p} \abs{\theta_j}) \; (\text{Prior})
 \end{equation}
 
-Since the posterior mode is the same as the classical Lasso-based estimate, the posterior mode possesses the optimal properties of Lasso proved by \cite{buhlmann2011statistics}. For example, the Oracle inequality in \citet[Eq. (2.8), Th. (6.1)]{buhlmann2011statistics} states that up to $O(\log(p))$ and a compatibility constant $\phi_0^2$, the mean squared prediction error is of the same order as if one knew active set $S_0 = \{j : \theta_j^0 \neq 0 \}$.)  Lasso also exhibits other desirable properties such as computational tractability, consistency of point estimates of $\btheta$ for suitably tuned $\lambda$, and optimality results on variable selection. 
+The posterior mode is therefore	the	 same as the classical Lasso-based estimate, and the mode inherits the optimal properties of Lasso proved by \cite{buhlmann2011statistics}. For example, the Oracle inequality in \citet[Eq. (2.8), Th. (6.1)]{buhlmann2011statistics} states that up to $O(\log(p))$ and a compatibility constant $\phi_0^2$, the mean squared prediction error is of the same order as if one knew active set $S_0 = \{j : \theta_j^0 \neq 0 \}$.)  Lasso also exhibits other desirable properties such as computational tractability, consistency of point estimates of $\btheta$ for suitably tuned $\lambda$, and optimality results on variable selection. 
 
-As we discussed before, the posterior mode of $\btheta$ under the double exponential prior will have all the above optimal properties of the Lasso estimate of $\btheta$. Unfortunately, the same is not expected to hold for the posterior mean, which is the Bayes estimate under squared error loss. In fact, \citet{castillo2015bayesian} argue that the Lasso is essentially non-Bayesian, in that the ``\textsl{full posterior distribution is useless for uncertainty quantification, the central idea of Bayesian inference}''. \citet{castillo2015bayesian} provide theoretical result that the full Lasso posterior does not contract at the same speed as the posterior mode. 
+As previously discussed, the posterior mode of $\btheta$ under the double exponential prior will have all the above optimal properties of the Lasso estimate of $\btheta$. Unfortunately, the same is not expected to hold for the posterior mean, which is the Bayes estimate under squared error loss. In fact, \citet{castillo2015bayesian} argue that the Lasso is essentially non-Bayesian, in that the ``\textsl{full posterior distribution is useless for uncertainty quantification, the central idea of Bayesian inference}''. \citet{castillo2015bayesian} provide theoretical result that the full Lasso posterior does not contract at the same speed as the posterior mode. 
 
-The deficiency of the double exponential prior for shrinking small observations while maintaining robustness to the large observations is noted by various people, including \cite{polson2010shrink,datta2013asymptotic}, the key property of global-local priors. 
+However, these are deficiencies of the double exponential prior. For example, for shrinking small observations while maintaining robustness to the large observations is noted by various authors, including \cite{polson2010shrink,datta2013asymptotic}, the key property of global-local priors. See the shrinkage profile plots in Fig. \ref{fig:priorkappa} as well as in the aforementioned papers.
 
 %the naive estimate $ \hat{S}(\lambda) = \{ j; \hat{\btheta}_j^{Lasso}(\lambda) \neq 0, j = 1, \ldots, p_n \}$ satisfies $P( \hat{S}(\lambda) = S_0) \to 1$ as $n \to \infty$ under a certain condition called ``the neighbourhood stability condition" on the design matrix and ``beta-min" condition on the coeffcient vector \footnote{The ``beta-min" condition is requiring that the non-zero coefficients are sufficinetly large, i.e. the non-zero $\beta_j^0$s satisfy $ \inf_{j \in \S_0^c} |\beta_j^0| >> \sqrt{s_0 \log(p)/n}$. For further discussion on this, please refer to Ch. 7 in \cite{buhlmann2011statistics}.}(\textit{vide} Theorems 1,2 in \cite{meinshausen2006high} and Section 2.6.1  in \cite{buhlmann2011statistics}). The neighbourhood stability condition is equivalent to the ``irrepresentable" condition of \cite{zhao2006model,zou2006adaptive}. 
 
@@ -223,7 +226,7 @@ has a density function with the following form:
 
 In a series of remarkable papers, \citet*{carvalho2009handling, carvalho2010horseshoe, polson2010shrink, polson2012half} introduced a continuous ``one-group" shrinkage rule based on what they call the horseshoe prior for multiple testing and model selection. The horseshoe prior for $\theta_i$, given a global shrinkage parameter $\tau$ is given by: 
 \begin{align}
-Y_i & \sim \Nor(\theta_i , \sigma^2), \theta_i \sim \Nor(0, \lambda_i^2 \tau^2) \nonumber \\
+(y_i \mid \theta_i) & \sim \Nor(\theta_i , \sigma^2), \;, (\theta_i \mid \lambda_i, \tau) \sim \Nor(0, \lambda_i^2 \tau^2) \nonumber \\
 \lambda_i ^2 & \sim \operatorname{C}^{+}(0,1), \quad i = 1, \ldots, n. \label{eq:hs}
 \end{align}
 
@@ -249,7 +252,7 @@ investigated the theoretical optimality of such a decision rule under a $0$-$1$
 additive loss and showed that the horseshoe multiple testing rule attains the
 Bayes oracle up to a multiplicative constant. 
 
-We focus here on the behaviour of the posterior distribution under the
+We focus now on the behaviour of the posterior distribution under the
 horseshoe prior. Although the prior density under the horseshoe prior doesn't
 admit a closed form, we can write the horseshoe posterior mean by using the
 Tweedies' formula $\E(\theta \mid y) = y + \dd{\ln m(y)}{y}$ as: 
@@ -257,12 +260,12 @@ Tweedies' formula $\E(\theta \mid y) = y + \dd{\ln m(y)}{y}$ as:
 \E(\theta_i \mid y_i, \tau) = y_i \left( 1 - \frac{2\Phi_1(\half, 1, \frac{5}{2},\frac{y_i^2}{2\sigma^2}, 1-\frac{1}{\tau^2})}{3\Phi_1(\half, 1, \frac{3}{2},\frac{y_i^2}{2\sigma^2}, 1-\frac{1}{\tau^2})} \right)
 \eeq
 
-where $\Phi_1$ is the degenerate hypergeometric function of two variables. This enables one to rapidly calculate the posterior mean estimator under the horseshoe prior via a `plug-in' approach with estimated values of the hyper-parameter $\tau$. \citet{van2014horseshoe} showed that the empirical Bayes posterior mean estimator enjoys  a `near-minimax' rate of estimation if the global shrinkage parameter $\tau$ is chosen suitably. We discuss the statistical properties of horseshoe posterior mean estimator and the induced decision rule in more details in \S \ref{sec:stat-prop}. 
+where $\Phi_1$ is the degenerate hypergeometric function of two variables. This enables one to rapidly calculate the posterior mean estimator under the horseshoe prior via a `plug-in' approach with estimated values of the hyper-parameter $\tau$. In a series of fundamental papers, \citet{van2014horseshoe} showed that the empirical Bayes posterior mean estimator enjoys  a `near-minimax' rate of estimation if the global shrinkage parameter $\tau$ is chosen suitably. We discuss the statistical properties of horseshoe posterior mean estimator and the induced decision rule in more details in \S \ref{sec:stat-prop}. 
 
 %
 The horseshoe prior is a member of a wider class of global-local scale mixtures of normals that admit following hierarchical form \citep{polson2010shrink}: 
 \begin{gather*}
-\y \sim \Nor(\X \btheta, \sigma^2 \I) ;\; \theta_i \sim \Nor(0, \lambda_i^2 \tau^2) \\
+(\y \mid \btheta) \sim \Nor(\X \btheta, \sigma^2 \I) ;\; \theta_i \sim \Nor(0, \lambda_i^2 \tau^2) \\
 \lambda_i^2 \sim \pi(\lambda_i^2) ; \; (\tau,\sigma^2) \sim  \pi(\tau^2,\sigma^2), i = 1, \ldots, n. 
 \end{gather*}
 These priors are collectively called the ``global-local'' shrinkage priors after \cite{polson2010shrink} as they recover signals by a local shrinkage parameter and adapt to sparsity by a global shrinkage parameter. Some of the popular shrinkage priors include the Generalized Double Pareto (GDP) \citep{armagan2013generalized}, the three-parameter Beta \citep{armagan2011generalized}, and the more recent horseshoe+ \citep{bhadra2015horseshoe+} and the Dirichlet-Laplace \citep{bhattacharya2014dirichlet} priors. A natural question is \textit{how do we compare between these priors?} It is known due to several authors \citep[e.g.]{polson2010shrink,bhadra2015default,van2015conditions} that the key features of a global-local shrinkage prior is a peak at origin and heavy tails. Below we list a few popular global-local shrinkage priors along with their behaviour near origin and the tails. A detailed list of shrinkage priors proposed in the recent past is deferred to \S \ref{sec:app-ext}.
@@ -301,7 +304,7 @@ $DL_{a}$ ($DL_{\frac{1}{n}}$) & $\abs{\theta}^{a-1}$ ($\abs{\theta}^{\frac{1}{n}
 
 One way to judge a prior is by the penalty it induces in a regularisation
 framework \eqref{eqn:reg}. For a prior $p(\theta)$, the induced penalty is
-given by $-\log(p(\theta))$ \eqref{eq:pen}. Although the horseshoe prior leads
+given by $-\log(p(\theta))$ as described in \eqref{eq:pen}. Although the horseshoe prior leads
 to optimal performance as a shrinkage prior, the induced penalty does not admit
 a closed form as the marginal prior is not analytically tractable. This poses a
 hindrance in learning via Expectation-Maximization or other similar algorithms.
@@ -415,21 +418,21 @@ Double Exponential & $\lambda_i \exp (-\lambda_i^2/2)$ & $\kappa_i^{-2} \exp{-\f
 %Non-convex penalties include the smoothly clipped absolute deviation or SCAD \citep{fan2001variable} and the minimax concave penalty or MCP \citep{zhang2010nearly}. Recent computational advances in fitting models with non-convex penalties include \citet{breheny2011coordinate} and \citet{mazumder2012}. Both works use coordinate descent approaches to fit SCAD and MCP and provide conditions for convergence.  Alternatively, an overview of proximal algorithms for non-convex optimization can be found in \citet{polson2015proximal}. Recent works have also demonstrated the equivalence between fitting a model with MCP penalty and evaluating the posterior mode in a Bayesian hierarchical model under a suitable prior \citep{strawderman2013hierarchical, schifano2010majorization}. Following along these lines, we show that evaluating the posterior mode under a suitable approximation to the horseshoe prior of \citet{carvalho2009handling, carvalho2010horseshoe} solves a non-convex optimization problem with desirable theoretical properties and derive a fast computational algorithm. %Using a latent variable representation in our probabilistic framework, we develop an expectation-maximization (E-M) algorithm \citep{dempster1977} that quickly reaches a local optimum, usually in a fraction of time required by the non-convex solvers.
 %\cite{bhadra2017horseshoe} provides results on feature selection properties of horseshoe-like penalties. 
 
-\section{Statistical Properties}\label{sec:stat-prop}
+\section{Statistical Risk Properties}\label{sec:stat-prop}
 
-\paragraph{History of Shrinkage Estimation: Inadmissibility of MLE } The story of shrinkage estimation goes back to the proof in \citet{stein_inadmissibility_1956} that the maximum likelihood estimators for normal data are inadmissible beyond $\mathbb{R}^2$. The James-Stein estimator is $\hat{\theta}^{JS} = (1 - \nicefrac{(m-2)}{\vectornorm{\Y}^2})Y$ with posterior mean $\hat{\theta}_{\mathrm{Bayes}} = (\nicefrac{\tau^2}{\tau^2+1}) Y$, which corresponds to the Bayes risk of $m(\nicefrac{\tau^2}{\tau^2+1})$. %Without any prior guess about $\tau^2$, one could use an Empirical Bayes estimate and the resulting James-Stein estimator is $\hat{\theta}^{JS} = (1 - \nicefrac{m-2}{\vectornorm{\Y}^2})Y$. 
-James and Stein proved that this estimator dominates the MLE in terms of the expected total squared error for every choice of $\btheta$, i.e. it outperforms the MLE no matter what the true $\btheta$ is. To motivate the need for developing new prior distributions, consider the classic James--Stein ``global'' shrinkage rule, $\estJs(y)$. This estimator uniformly dominates the traditional sample mean estimator, $\hat{\theta}$. For all values of the true parameter $\theta$ and for $n>2$, we have the classical mean squared error (MSE) risk bound:
+\paragraph{History of Shrinkage Estimation: Inadmissibility of MLE } The story of shrinkage estimation goes back to the proof in \citet{stein_inadmissibility_1956} that the maximum likelihood estimators for normal data are inadmissible beyond $\mathbb{R}^2$. The James-Stein estimator is $\hat{\theta}^{JS} = (1 - \nicefrac{(m-2)}{\vectornorm{\y}^2})\y$ with posterior mean $\hat{\theta}_{\mathrm{Bayes}} = (\nicefrac{\tau^2}{\tau^2+1}) \y$, which corresponds to the Bayes risk of $m(\nicefrac{\tau^2}{\tau^2+1})$. %Without any prior guess about $\tau^2$, one could use an Empirical Bayes estimate and the resulting James-Stein estimator is $\hat{\theta}^{JS} = (1 - \nicefrac{m-2}{\vectornorm{\Y}^2})Y$. 
+James and Stein proved that this estimator dominates the MLE in terms of the expected total squared error for every choice of $\btheta$, i.e. it outperforms the MLE no matter what the true $\btheta$ is. To motivate the need for developing new prior distributions, consider the classic James--Stein ``global'' shrinkage rule, $\estJs(\y)$. This estimator uniformly dominates the traditional sample mean estimator, $\hat{\theta}$. For all values of the true parameter $\theta$ and for $n>2$, we have the classical mean squared error (MSE) risk bound:
 \[
 R(\estJs, \btheta) \defeq \E_{y \mid \btheta} {\Vert \estJs(\y) - \btheta \Vert}^2 < n = \E_{\y \mid \btheta} {\Vert \y - \btheta \Vert}^2, \quad \forall \btheta \in \mathbb{R}^n, \; n \ge 3.
 \]
 %However, for a sparse signal, $\estJs(y)$ performs poorly. Suppose that the true parameter $\theta$ is an `$r$-spike'' with $r$ coordinates of magnitude $ \sqrt{n/r}$ and the rest set at zero, giving $ {\Vert \theta \Vert}^2 =n$. Then \cite{johnstone2004needles} showed that the classical risk satisfies $ R \left ( \estJs , \theta \right ) \geq n/2 $ whereas simple thresholding at \sqrt{2 \log n}$ performs with risk $\sqrt{\log n}$. 
 
-However, for the sparse signal problem, the standard James-Stein shrinkage rule $ \hat{\theta}_{JS} $ performs poorly in a sparse setting is the case of the $r$-spike parameter value $ \theta_r$ with $r$ coordinates at $ \sqrt{n/r} $ which has $ \Vert \theta \Vert^2 =n $. \citet{johnstone2004needles} show that $ E \Vert \hat{\theta}^{JS} - \theta \Vert \leq n $ with risk $2$ at the origin. Moreover, 
+For sparse signal problem the standard James-Stein shrinkage rule, $ \hat{\theta}_{JS} $, performs poorly. This is best seen in the sparse setting for a $r$-spike parameter value $ \theta_r$ with $r$ coordinates at $ \sqrt{n/r} $ which has $ \Vert \theta \Vert^2 =n $. \citet{johnstone2004needles} show that $ E \Vert \hat{\theta}^{JS} - \theta \Vert \leq n $ with risk $2$ at the origin. Moreover, we can bound
 \[
 \frac{n \Vert \theta \Vert^2}{ n + \Vert \theta \Vert^2} \leq R \left ( \hat{\theta}^{JS} , \theta_r \right ) \leq
-2 + \frac{n \Vert \theta \Vert^2}{ n + \Vert \theta \Vert^2}
+2 + \frac{n \Vert \theta \Vert^2}{ n + \Vert \theta \Vert^2},
 \]
-Hence for the $r$-spike parameter value $ R \left( \hat{\theta}^{JS} , \theta_r \right) \geq (n/2)$. As \citet{donoho1994ideal} showed, simpler rules such as the hard-thresholding and soft-thresholding estimates given by $\hat{\theta}^{H}(y,\lambda) = y I\{\abs{y} \ge \lambda \}$ and $\hat{\theta}^{S}(y,\lambda) = sgn(y) (\abs{y} - \lambda)_{+}$ satisfy an Oracle inequality. In particular, when the thresholding sequence is close to $\sqrt{2\log n}$ (`universal threshold'), these estimators attain the ``oracular risk'' up to a factor of $2\log(n)$. 
+and so $\estJs(\y)$ for the $r$-spike parameter value has risk at least $ R \left( \hat{\theta}^{JS} , \theta_r \right) \geq (n/2)$. This is nowehere near optimal. As \citet{donoho1994ideal} showed, simpler rules such as the hard-thresholding and soft-thresholding estimates given by $\hat{\theta}^{H}(y,\lambda) = y I\{\abs{y} \ge \lambda \}$ and $\hat{\theta}^{S}(y,\lambda) = sgn(y) (\abs{y} - \lambda)_{+}$ satisfy an Oracle inequality. In particular, when the thresholding sequence is close to $\sqrt{2\log n}$ (`universal threshold'), these estimators attain the ``oracular risk'' up to a factor of $2\log(n)$. Intuitively, this is not surprising as the high-dimensional normal prior places most of its mass on circular regions -- and does not support sparse, spiky vectors. 
 
 \paragraph{Near minimax $\ell_2$ risk}
 
@@ -439,7 +442,7 @@ The asymptotically minimax risk rate in $\ell_2$ for nearly black objects is giv
 \eeq
 The minimax rate, which is a frequentist criteria for evaluating the convergence of point estimators to the underlying true parameter, is a validation criteria for posterior contraction as well. This result is due to \citet{ghosal2000} who showed that the minimax rate is the fastest that the posterior distribution can contract. 
 
-The horseshoe estimators also enjoy `near-minimax' rates in both an empirical Bayes and full Bayes approach, provided that the hyper-parameters or the priors are suitably chosen - as proved in a series of papers \citep{van2014horseshoe,van2015conditions,van2016many,van2017adaptive}. Specifically, the horseshoe estimator achieves
+Horseshoe estimators enjoy `near-minimax' rates in both an empirical Bayes and full Bayes approach, provided that the hyper-parameters or the priors are suitably chosen - as proved in a series of papers \citep{van2014horseshoe,van2015conditions,van2016many,van2017adaptive}. Specifically, the horseshoe estimator achieves
 \beq
 \sup_{ \theta \in l_0[p_n] } \; \mathbb{E}_{ y | \theta } \norm{ \estHs (y) - \theta }^2 \asymp p_n \log \left ( n / p_n \right ), \label{eq:minimax}
 \eeq
