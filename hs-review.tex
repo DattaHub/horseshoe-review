@@ -109,9 +109,10 @@ Formal definitions of sparsity and ultra-sparsity relies on the property of a fe
 
 Current research provides a rich variety of methodologies for high-dimensional inference based on regularisation which implicitly or explicitly penalizes models based on their dimensionality. The gold standard is Lasso (acronym for Least Absolute Shrinkage and Selection Operator) that produces a sparse point estimate by constraining the $\ell_1$ norm of the parameter vector. Lasso's widespread popularity is due to its computational efficiency based on the Least Angle Regression method due to \cite{efron_least_2004} as well as its ability to produce a sparse solution, with optimality properties for both estimation and variable selection. \cite{buhlmann2011statistics, james2013introduction, hastie2015statistical} provide excellent references for different aspects of Lasso and its various modifications. \par 
 
-<<<<<<< HEAD
+
 Bayesian alternatives are numerous and can be broadly classified into two categories: discrete mixtures or ``two-groups" model or ``spike-and-slab" priors (vide \citet{johnstone2004needles,efron2010large,efron2008microarrays,bogdan2011asymptotic}) and shrinkage priors \cite{armagan2011generalized,armagan2013generalized,carvalho2009handling,carvalho2010horseshoe,griffin2005alternative,polson2010shrink,castillo2012needles}). The first approach places a point mass at zero and an absolutely continuous prior on the non-zero elements of the parameter vector.  The second approach entails placing absolutely continuous shrinkage priors on the entire parameter vector, that shrink the entire coefficient towards zero. Both these approaches have their own advantages, and we discuss the trade-offs associated with choosing one over the other a little later.  It should also be noted that most of the penalization approaches can be interpreted in a Bayesian sense, by considering the mode of the posterior distribution under an appropriate shrinkage prior. 
-=======
+
+
 The Bayesian alternatives to the sparse signal-recovery problem for high
 dimensional data can be broadly classified into two categories: discrete
 mixtures or ``two-groups'' model or ``spike-and-slab'' priors (vide
@@ -127,7 +128,7 @@ with choosing one over the other a little later.  It should also be noted that
 most of the penalization approaches can be interpreted in a Bayesian sense, by
 considering the mode of the posterior distribution under an appropriate
 shrinkage prior. 
->>>>>>> origin/master
+
 
 %Ultra-sparse signal detection provides a challenge for developing statistical estimators. 
 %\subsection{Nearly black normal means model: minimax rate in estimation and optimal rate in testing}
