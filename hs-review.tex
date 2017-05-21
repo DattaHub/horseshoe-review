@@ -559,7 +559,7 @@ The lower bound of the maximization interval prevents against a degenerate solut
 
 %Methods for choosing $\tau$ will involve minimizing some criteria: %such as AIC \citep{akaike74}, BIC \citep{schwarz1978}, DIC \citep{spiegelhalter2002bayesian}, SURE \citep{stein81}, $C_p$ \citep{mallows73}. \citet{castillo2015bayesian} compared full Bayes MCMC with empirical Bayes and plug-in approaches.
 
-\section{Computation and Simulation}
+\section{Computation and Simulation}\label{sec:horse-comp}
 
 Over the last few years, several different implementation of the horseshoe prior for normal means and regression model has been proposed. The MCMC based implementations usually proceed via block-updating $\btheta$, $\blambda$ and $\tau$ using either a Gibbs or parameter expansion or slice sampling strategy. The first \textsc{R} package to offer horseshoe prior for regression along with Lasso, Bayesian Lasso and Ridge was the \texttt{monomvn} package by \citet{gramacy2010shrinkage}. In an unpublished technical report, \citet{scott_parameter_2010} proposed a parameter expansion strategy for the horseshoe prior and studied its effect on the autocorrelation of $\tau$. Furthermore, \citet{scott_parameter_2010} pointed out that the solution to this lies in marginalizing over the local shrinkage parameter $\lambda_j$'s. On a somewhat similar route, \citet{makalic2016high} uses a inverse-gamma scale mixture identity to construct a Gibbs sampling scheme for horseshoe and horseshoe+ prior for linear regression as well as logistic and negative binomial regression. The \texttt{horseshoe} package implements the MMLE and truncated prior approaches for handling $\tau$ proposed in \citet{van2017adaptive}. \citet{hahn_elliptical_2016} proposed an elliptical slice sampler and argues that it wins over Gibbs strategies for higher dimensional problems both in per-sample speed and quality of samples (i.e. effective sample size). The state-of-the-art implementation for horseshoe prior in linear regression is \citet{bhattacharya_fast_2015} who used a Gaussian sampling alternative to the na\''ive Cholesky decomposition to reduce the computational burden from $O(p^3)$ to $O(n^p)$. A very recent paper by \citet{james2017scalable} claims to improve this even further by implementing a block update strategy but using a random walk Metropolis--Hastings algorithm on $\log(1/\tau^2)$ for block-updating $\tau \mid \lambda$. We provide a list of all the implementations known to us on Table \ref{tab:hs-imp}.
 
@@ -637,7 +637,7 @@ As discussed in \S \ref{sec:one-gp}, the Horseshoe prior belongs to a wider clas
 
 Although the original horseshoe prior was developed for signal recovery with sparse Gaussian means problem , the idea of directly modeling the posterior inclusion probability and use of normal-scale mixture to facilitate sparsity is a flexible idea and can be easily generalized to a wider class of problems. \citet{bhadra2015default} show that the horseshoe prior is a good candidate as a default prior for low-dimensional, possibly non-linear functionals of high-dimensional parameter and can resolve long-standing marginalization paradoxes for such problems. \citet{bhadra2016prediction} show how to use global-local priors for prediction and provide theoretical and numerical evidence that it performs better than a variety of competitors including lasso, ridge, PCR and sparse PLS. 
 
-Moving beyond Gaussianity, \citet{datta2016bayesian} re-discovered the Gauss-hypergeometric prior for flexible shrinkage needed for quasi-sparse count data, with a tighter control on false discoveries. \citet{piironen2016hyperprior} used a Gaussian approximation using a second-order Taylor expansion for the log-likelihood to apply the horseshoe prior for the generalized linear model. \citet{wang2013class} proposed a shrinkage prior based on a scale mixture of uniform for covariance matrix estimation. \citet{peltola2014hierarchical} applies the horseshoe prior for Bayesian linear survival regression for selecting covariates with highest predictive values. Given the explosive growth of the methods in this area, we conjecture that the horseshoe prior would be regarded as a key tool sparse signal recovery and as a default prior for objective Bayesian inference for many important problems. 
+Moving beyond Gaussianity, \citet{datta2016bayesian} re-discovered the Gauss-hypergeometric prior for flexible shrinkage needed for quasi-sparse count data, with a tighter control on false discoveries. \citet{piironen2016hyperprior} used a Gaussian approximation using a second-order Taylor expansion for the log-likelihood to apply the horseshoe prior for the generalized linear model. \citet{wang2013class} proposed a shrinkage prior based on a scale mixture of uniform for covariance matrix estimation. \citet{peltola2014hierarchical} applies the horseshoe prior for Bayesian linear survival regression for selecting covariates with highest predictive values. A sample of the many applications of horseshoe prior is given in Table \ref{tab:hs-apps}. Given the explosive growth of the methods in this area, we conjecture that the horseshoe prior would be regarded as a key tool sparse signal recovery and as a default prior for objective Bayesian inference for many important problems. 
 
 % Table generated by Excel2LaTeX from sheet 'Sheet1'
 \begin{table}[htbp]
@@ -664,6 +664,34 @@ Moving beyond Gaussianity, \citet{datta2016bayesian} re-discovered the Gauss-hyp
   \label{tab:one-gps}%
 \end{table}%
 
+% Table generated by Excel2LaTeX from sheet 'Sheet1'
+\begin{table}[htbp]
+  \centering
+  \caption{Applications of the horseshoe prior}
+  \footnotesize{
+    \begin{tabular}{|p{3in}|p{1.5in}|}
+    \hline
+    Application  & Authors \bigstrut\\
+    \hline
+    \textit{Fadeout} method for mean-field variational inference under non-centered parameterizations and stochastic variational inference for undirected graphical model.  & \citet{ingraham_bayesian_2016} \bigstrut[t]\\
+    \hline
+    Linear regression for Causal inference and Instrumental variable models  & \citet{hahn_shrinkage_2014, hahn_elliptical_2016} \\
+    \hline
+    Multiclass prediction using DOLDA (Diagonally orthant Latent Dirichlet Allocation)  & \citet{magnusson_dolda_2016} \\
+    \hline
+    Mendelian Randomization to detect causal effects of interest & \citet{berzuini_mendelian_2016} \\
+    \hline 
+    Locally adaptive nonparametric curve fitting with shrinkage prior Markov random field (SPMRF) & \citet{faulkner_bayesian_2015} \\
+    \hline
+    Quasi-Sparse Count Data & \citet{datta2016bayesian} \\
+    \hline
+    Variable Selection under the projection predictive framework  & \citet{piironen_projection_2015} \bigstrut[b]\\
+    \hline
+    \end{tabular}%
+    }
+  \label{tab:hs-apps}%
+\end{table}%
+
 
 %\begin{enumerate}
 %\item \citet{bhadra2015default} use global-local priors in default Bayes Efron problems.
@@ -674,17 +702,25 @@ Moving beyond Gaussianity, \citet{datta2016bayesian} re-discovered the Gauss-hyp
 
 \section{Discussion}
 
-\textcolor{red}{
-What's left to do? Horseshoe subset selection. Lasso computationally quick / scalable. Horseshoe needs MCMC etc. 
-\begin{enumerate}
-\item So many global-local priors; what is the unifying theme? Spike and heavy tails \citet{polson2010shrink,van2015conditions}.
-\item How close to minimax constant can we get in estimation? Only near-minimaxity and the best constant is $4\sigma^2$ \citep{van2017adaptive}.
-\item How close to oracle risk can we get in testing? We can get exact rate \citep{ghosh2016testing}.
-\item Is prediction performance optimal? 
-\item Yet to rigorously show global-local priors have any information theoretic properties in default Bayes problems that reference priors \citep{berger_development_1992} enjoy.
-\item \citet{bhadra2016global} demonstrate how global-local mixtures can be generated using two integral identities. This might prove useful in EM and MCMC.
-\end{enumerate}
-}
+Horseshoe prior and the general class of global-local shrinkage priors are widely used for sparse signal recovery in high dimensional data. The horseshoe prior offers better computational efficiency than the Bayesian two-group priors, while still mimicking the inference and it outperforms the estimator based on Laplace prior, the Bayesian dual of Lasso. The intuitive reason for better performance by the horseshoe prior is its heavy tails and probability spike at zero, which makes it adaptive to sparsity and robust to large signals. A number of sampling algorithms have been proposed for both the Lasso and the horseshoe prior, based on variants of coordinate descent and MCMC respectively. We have outlined the distinct algorithmic implementations in \ref{sec:horse-comp} and table \ref{hs-imp}. Since the goal of Lasso-based estimator is to produce a point estimate, rather than samples from the full posterior distribution of the underlying parameter, Lasso-based methods are typically faster than horseshoe or the related shrinkage priors. The lack of speed can be overcome easily by employing a strategy based on expectation-maximization or proximal algorithm, which is often faster than the Lasso or other penalty based methods \citep[vide]{bhadra2017horseshoe}. 
+
+We have discussed the theoretical optimality properties for both Lasso and horseshoe estimator. The optimality properties of Lasso are deep and well-known and they depend on `neighbourhood stability' or `irrepresentatbility' condition and `beta-min' condition. Informally, these conditions guaranetee against ill-posed design matrix and 
+separability of signal and noise parameters. The horseshoe estimator enjoys Kullback--Leibler super-efficiency in true density recovery, near-minimaxity in estimation, and asymptotic Bayes optimality for multiple testing using the pseudo-inclusion probabilities as discussed in \ref{sec:stat-prop}. The horseshoe priors are also good default priors for many-to-one functionals as shown in \citep{bhadra2016default}, but a thorough study of horseshoe prior for default Bayes problems is still an unexplored area. 
+
+There are a number of directions for future research for horseshoe prior and related class, for example, exploring new computational strategies such as proximal algorithms and extension to other structured sparsity problem and probability models. One promising area is extension of horseshoe priors to the class of exponential family, and investigate whether the optimality properties carry over to the non-Gaussian case. Another interesting area would be study shrinkage priors for structured sparsity problems, such as grouped variable selection or a Gaussian graphical model. 
+
+
+%\textcolor{red}{
+%What's left to do? Horseshoe subset selection. Lasso computationally quick / scalable. Horseshoe needs MCMC etc. 
+%\begin{enumerate}
+%\item So many global-local priors; what is the unifying theme? Spike and heavy tails \citet{polson2010shrink,van2015conditions}.
+%\item How close to minimax constant can we get in estimation? Only near-minimaxity and the best constant is $4\sigma^2$ \citep{van2017adaptive}.
+%\item How close to oracle risk can we get in testing? We can get exact rate \citep{ghosh2016testing}.
+%\item Is prediction performance optimal? 
+%\item Yet to rigorously show global-local priors have any information theoretic properties in default Bayes problems that reference priors \citep{berger_development_1992} enjoy.
+%\item \citet{bhadra2016global} demonstrate how global-local mixtures can be generated using two integral identities. This might prove useful in EM and MCMC.
+%\end{enumerate}
+%}
 
 \begin{appendix}
 
