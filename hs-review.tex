@@ -3,7 +3,6 @@
 %\RequirePackage[OT1]{fontenc} %IMS
 \usepackage[utf8]{inputenc}
 \usepackage[slantedGreek]{mathpazo}
-%\usepackage[pdftex]{graphicx}
 \usepackage{amsfonts}
 \usepackage{setspace}
 \usepackage{amssymb}
@@ -19,28 +18,21 @@
 \usepackage{suffix}
 \usepackage{color}
 \usepackage{bigstrut}
-
 \usepackage{graphicx}
 \usepackage{wrapfig}
 \usepackage{epstopdf}
 \usepackage{subcaption}
 \usepackage{multirow}
 \usepackage{nicefrac}
-
-
 \usepackage[normalem]{ulem}
+\usepackage[inline]{enumitem}
 
-%\setlength{\textheight}{9in}
-%\setlength{\textwidth}{6.5in}
-%\setlength{\topmargin}{-36pt}
-%\setlength{\oddsidemargin}{0pt}
-%\setlength{\evensidemargin}{0pt}
+% set inline enumerations to use roman numbering
+\setlist*[enumerate]{label=(\roman*)}
 
 % this order is important
 %\usepackage{hyperref}
 \RequirePackage[colorlinks,citecolor=blue,urlcolor=blue]{hyperref} %IMS
-%\usepackage[author-year]{amsrefs}
-
 \usepackage[sort,comma]{natbib}
 
 %\arxiv{1502.00560}
@@ -48,19 +40,28 @@
 \allowdisplaybreaks
 
 \include{math-commands}
-%<<<<<<< HEAD
-%\graphicspath{{../../figures/}{../figures/}{./figures/}{./figs}{./}}
 \graphicspath{{./figs/}}
-%=======
-%\graphicspath{{../../figures/}{../figures/}{./figures/}{figs/}{./}}
-%>>>>>>> origin/master
 
 \title{Lasso Meets Horseshoe}
 
-\author{Anindya Bhadra  \footnote{{\em Address:} 250 N. University St., West Lafayette, IN 47907, email: bhadra@purdue.edu.} \\Purdue University
-\and Jyotishka Datta  \footnote{{\em Address:} SCEN 309, 1 University of Arkansas, Fayetteville, AR, 72701, email: jd033@uark.edu.}\\ University of Arkansas\\
-\and Nicholas G. Polson \footnote{{\em Address:} 5807 S. Woodlawn Ave., Chicago, IL 60637, email: ngp@chicagobooth.edu.}  \ \ and Brandon T. Willard \footnote{{\em Address:} 5807 S. Woodlawn Ave., Chicago, IL 60637, email: bwillard@uchicago.edu.} \\The University of Chicago Booth School of
-Business}
+\author{
+  Anindya Bhadra\footnote{
+  {\em Address:} 250 N. University St., West Lafayette, IN 47907, 
+  email: bhadra@purdue.edu.} \\
+  Purdue University
+  \and Jyotishka Datta\footnote{
+  {\em Address:} SCEN 309, 1 University of Arkansas, Fayetteville, AR, 72701, 
+  email: jd033@uark.edu.}\\ 
+  University of Arkansas \\
+  \and Nicholas G. Polson\footnote{
+  {\em Address:} 5807 S. Woodlawn Ave., Chicago, IL 60637, 
+  email: ngp@chicagobooth.edu.}  
+  and 
+  Brandon T. Willard\footnote{
+  {\em Address:} 5807 S. Woodlawn Ave., Chicago, IL 60637, 
+  email: bwillard@uchicago.edu.} \\
+  The University of Chicago Booth School of Business
+}
 \date{\today}
 \singlespacing
 \begin{document}
@@ -72,7 +73,13 @@ Business}
 \begin{abstract}
 \baselineskip=15pt
 \noindent %We review Bayesian and classical approaches to regularization problems. 
-The goal of our paper is to survey the major advances for Lasso and Horseshoe sparse signal recovery regularisation methodologies. Lasso and its variants are a gold standard for best subset selection of predictors while Horseshoe is a state-of-the-art Bayesian estimator for sparse signals. Lasso is scalable and fast using convex optimization whilst the Horseshoe penalty is non-convex with theoretical guarantees of minimizing the Bayes risk under quadratic loss.  Our novel perspective focuses on three aspects, (i) efficiency and scalability of computation and (ii) methodological development and performance and (iii) theoretical optimality in high dimensional inference for the Gaussian sparse model and beyond. 
+The goal of our paper is to survey the major advances for Lasso and Horseshoe sparse signal recovery regularisation methodologies. Lasso and its variants are a gold standard for best subset selection of predictors while Horseshoe is a state-of-the-art Bayesian estimator for sparse signals. Lasso is scalable and fast using convex optimization whilst the Horseshoe penalty is non-convex with theoretical guarantees of minimizing the Bayes risk under quadratic loss.  Our novel perspective focuses on three aspects, 
+\begin{enumerate*}
+  \item efficiency and scalability of computation and 
+  \item methodological development and performance and 
+  \item theoretical optimality in high dimensional inference for the Gaussian
+    sparse model and beyond
+\end{enumerate*}. 
 
 
 {\bf Keywords:} Sparsity; Regression; lasso; global-local priors; horseshoe; horseshoe+; regularization; Hyper-parameter tuning. 
@@ -100,11 +107,15 @@ The goal of our paper is to survey the major advances for Lasso and Horseshoe sp
 
 High-dimensional variable selection and sparse signal recovery has become routine practice in many Statistics and machine learning applications. This has led to a vast growing literature for both frequentist and Bayesian methodologies for computation of large scale inference estimators. Whilst the general area is too large to cover in a single review article, we revisit two popular approaches to sparse parameter estimation problems, the classical Lasso \citep{tibshirani96} and the Bayes horseshoe estimator \citep{carvalho2010horseshoe}. We compare and contrast three areas: performance in high-dimensional data, theoretical optimality and computational efficiency. 
 
-Formal definitions of sparsity and ultra-sparsity relies on the property of a few large signals among many zero or nearly zero noisy observations. A common goal in high dimensional inference problems is to identify the low-dimensional signals observed in white noise. This encompasses three related, yet different areas: 
+Formal definitions of sparsity and ultra-sparsity relies on the property of a
+few large signals among many zero or nearly zero noisy observations. A common
+goal in high dimensional inference problems is to identify the low-dimensional
+signals observed in white noise. This encompasses three related, yet different
+areas: 
 \begin{enumerate}
-\item Estimation of the underlying sparse parameter vector. 
-\item Multiple testing where the number of tests is much larger than the sample size, and 
-\item Subset selection in linear model where the number of covariates $p$ is much larger than the sample size $n$. 
+  \item Estimation of the underlying sparse parameter vector. 
+  \item Multiple testing where the number of tests is much larger than the sample size, and 
+  \item Subset selection in linear model where the number of covariates $p$ is much larger than the sample size $n$. 
 \end{enumerate}
 
 Current research provides a rich variety of methodologies for high-dimensional inference based on regularisation which implicitly or explicitly penalizes models based on their dimensionality. The gold standard is Lasso (acronym for Least Absolute Shrinkage and Selection Operator) that produces a sparse point estimate by constraining the $\ell_1$ norm of the parameter vector. Lasso's widespread popularity is due to its computational efficiency based on the Least Angle Regression method due to \cite{efron_least_2004} as well as its ability to produce a sparse solution, with optimality properties for both estimation and variable selection. \cite{buhlmann2011statistics, james2013introduction, hastie2015statistical} provide excellent references for different aspects of Lasso and its various modifications. \par 
@@ -233,15 +244,18 @@ Carlo (MCMC) is typically more challenging using point mass mixture priors.
 %some variation of a stochastic search algorithm in MCMC for model fitting,
 %such as the stochastic search variable selection of \citet{george93, george97}
 %or shotgun stochastic search of \citet{hans2007}.
-\citet{rovckova2016spike} commented on the inefficiency of the stochastic
-search algorithms for exploring the posterior even for moderate dimensions and
+\citet{rovckova2016spike} discusses the inefficiency of stochastic search
+algorithms for exploring the posterior--even for moderate dimensions--and
 developed a deterministic alternative to quickly find the maximum a-posteriori
-model. We note that (i) increasing the efficiency in computation in the
-spike-and-slab model remains an active area of research 
-\citep[see, e.g., ][]{rovckova2016spike} and (ii) some complicating factors in
-the spike-and-slab model, such as a lack of suitable block updates, have fairly
-easy solutions for their continuous global-local shrinkage counterparts,
-facilitating posterior exploration. 
+model. Here 
+\begin{enumerate*}
+  \item increasing the efficiency in computation in the spike-and-slab model
+    remains an active area of research \citep[see, e.g., ][]{rovckova2016spike}
+    and
+  \item some complicating factors in the spike-and-slab model, such as a lack
+    of suitable block updates, have fairly easy solutions for their continuous
+    global-local shrinkage counterparts, facilitating posterior exploration. 
+\end{enumerate*}
 
 The continuous one-group shrinkage prior has a different motto: instead of
 putting a prior on the model space to yield a sparse estimator, they model the
