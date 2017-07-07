@@ -1,7 +1,12 @@
 # Welcome to Github repository: horseshoe-review
 
 This is a repository for sharing the source codes for the review paper tentatively titled "Horseshoe meets Lasso" by 
-Bhadra, Datta, Polson and Willard. The current abstract for the paper is given below: 
+Bhadra, Datta, Polson and Willard. 
+
+The arXiv link is given below: 
+https://arxiv.org/pdf/1706.10179.pdf
+
+The current abstract for the paper is given below: 
 
 ## Abstract 
 The goal of the paper is to survey the major advances for Lasso and

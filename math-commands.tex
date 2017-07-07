@@ -58,11 +58,11 @@
 %\newcommand{\z}{{\bf z}}
 \newcommand{\A}{{\bf A}}
 \newcommand{\B}{{\bf B}}
-\newcommand{\C}{{\bf C}}
+%\newcommand{\C}{{\bf C}}
 \newcommand{\D}{{\bf D}}
 \newcommand{\E}{\mathbb E}
 \newcommand{\F}{{\bf F}}
-\newcommand{\G}{{\bf G}}
+%\newcommand{\G}{{\bf G}}
 \renewcommand{\H}{{\bf H}}
 \newcommand{\I}{{\bf I}}
 \newcommand{\J}{{\bf J}}
@@ -77,7 +77,7 @@
 \newcommand{\R}{{\bf R}}
 %\renewcommand{\S}{{\bf S}}
 \newcommand{\T}{{\bf T}}
-\newcommand{\U}{{\bf U}}
+%\renewcommand{\U}{{\bf U}}
 \newcommand{\V}{\mathbb V}
 \newcommand{\W}{{\bf W}}
 \newcommand{\X}{{\bf X}}
@@ -173,6 +173,7 @@
 \newcommand{\bone}{{\bf 1}}
 \newcommand{\Li}{\hat\Lambda^{-1(g)}}
 \newcommand{\Oi}{\hat\Omega^{-1(g)}}
+\newcommand{\id}{\stackrel{\mathrm{ind}}{\sim}}
 \newcommand{\iid}{\stackrel{\mathrm{iid}}{\sim}}
 \newcommand{\iidp}{\stackrel{\mathrm{P}}{=}}
 \newcommand{\iidd}{\stackrel{\mathrm{D}}{=}}
@@ -186,27 +187,27 @@
 %
 % Meijer-G additions
 %
-\DeclarePairedDelimiterX\MeijerM[3]{\lparen}{\rparen}%
-{\begin{smallmatrix}#1 \\ #2\end{smallmatrix}\delimsize\vert\,#3}
-
-\newcommand\MeijerG[8][]{%
-  G^{\,#2,#3}_{#4,#5}\MeijerM[#1]{#6}{#7}{#8}}
-
-\WithSuffix\newcommand\MeijerG*[7]{G^{\,#1,#2}_{#3,#4}\MeijerM*{#5}{#6}{#7}}
-% end Meijer-G
-
-%
-% Generalized Hypergeometric Function (pFq)
-%
-\DeclarePairedDelimiterX\pFqM[3]{\lparen}{\rparen}%
-{\begin{smallmatrix}#1 \\ #2\end{smallmatrix}\delimsize\vert\,#3}
-
-\newcommand\pFq[6][]{%
-  {}_{#2}F_{#3}\pFqM[#1]{#4}{#5}{#6}}
-
-\WithSuffix\newcommand\pFq*[5]{{}_{#1}F_{#2}\pFqM*{#3}{#4}{#5}}
-% end pFq
-
+%%\DeclarePairedDelimiterX\MeijerM[3]{\lparen}{\rparen}%
+%%{\begin{smallmatrix}#1 \\ #2\end{smallmatrix}\delimsize\vert\,#3}
+%%
+%%\newcommand\MeijerG[8][]{%
+%%  G^{\,#2,#3}_{#4,#5}\MeijerM[#1]{#6}{#7}{#8}}
+%%
+%%\WithSuffix\newcommand\MeijerG*[7]{G^{\,#1,#2}_{#3,#4}\MeijerM*{#5}{#6}{#7}}
+%%% end Meijer-G
+%%
+%%%
+%%% Generalized Hypergeometric Function (pFq)
+%%%
+%%\DeclarePairedDelimiterX\pFqM[3]{\lparen}{\rparen}%
+%%{\begin{smallmatrix}#1 \\ #2\end{smallmatrix}\delimsize\vert\,#3}
+%%
+%%\newcommand\pFq[6][]{%
+%%  {}_{#2}F_{#3}\pFqM[#1]{#4}{#5}{#6}}
+%%
+%%\WithSuffix\newcommand\pFq*[5]{{}_{#1}F_{#2}\pFqM*{#3}{#4}{#5}}
+%%% end pFq
+%%
 \newtheorem{theorem}{THEOREM}
 \numberwithin{theorem}{section}
 \newtheorem{Proof}{PROOF}
@@ -226,36 +227,36 @@
 \newtheorem{assn}{ASSUMPTION}
 %\newtheorem{result}[theorem]{Result}
 \newtheorem{result}[theorem]{RESULT}
-
-\usepackage{booktabs,array}
-\def\Midrule{\midrule[\heavyrulewidth]}
-\newcount\rowc
-
-\makeatletter
-\def\ttabular{%
-\hbox\bgroup
-\let\\\cr
-\def\rulea{\ifnum\rowc=\@ne \hrule height 1.0pt \fi}
-\def\ruleb{
-\ifnum\rowc=1\hrule height 1.0pt  \else
-%\ifnum\rowc=3\hrule height 0.0pt%\heavyrulewidth 
-\ifnum\rowc= 3  \hrule height 0.5pt \else%\heavyrulewidth 
-\ifnum\rowc= 5  \hrule height 0.5pt \else%\heavyrulewidth 
-\ifnum\rowc= 7  \hrule height 0.5pt \else%\heavyrulewidth 
-\ifnum\rowc= 9  \hrule height 0.5pt \else%\heavyrulewidth 
-\ifnum\rowc= 11  \hrule height 0.5pt %\heavyrulewidth 
-  \else \hrule height 0pt%\lightrulewidth
-\fi\fi\fi\fi\fi\fi}
-\valign\bgroup
-\global\rowc\@ne
-\rulea
-\hbox to 7em{\strut \hfill##\hfill}%
-\ruleb
-&&%
-\global\advance\rowc\@ne
-\hbox to 7em{\strut\hfill##\hfill}%
-\ruleb
-\cr}
-\def\endttabular{%
-\crcr\egroup\egroup}
+%%
+%%\usepackage{booktabs,array}
+%%\def\Midrule{\midrule[\heavyrulewidth]}
+%%\newcount\rowc
+%
+%\makeatletter
+%\def\ttabular{%
+%\hbox\bgroup
+%\let\\\cr
+%\def\rulea{\ifnum\rowc=\@ne \hrule height 1.0pt \fi}
+%\def\ruleb{
+%\ifnum\rowc=1\hrule height 1.0pt  \else
+%%\ifnum\rowc=3\hrule height 0.0pt%\heavyrulewidth 
+%\ifnum\rowc= 3  \hrule height 0.5pt \else%\heavyrulewidth 
+%\ifnum\rowc= 5  \hrule height 0.5pt \else%\heavyrulewidth 
+%\ifnum\rowc= 7  \hrule height 0.5pt \else%\heavyrulewidth 
+%\ifnum\rowc= 9  \hrule height 0.5pt \else%\heavyrulewidth 
+%\ifnum\rowc= 11  \hrule height 0.5pt %\heavyrulewidth 
+%  \else \hrule height 0pt%\lightrulewidth
+%\fi\fi\fi\fi\fi\fi}
+%\valign\bgroup
+%\global\rowc\@ne
+%\rulea
+%\hbox to 7em{\strut \hfill##\hfill}%
+%\ruleb
+%&&%
+%\global\advance\rowc\@ne
+%\hbox to 7em{\strut\hfill##\hfill}%
+%\ruleb
+%\cr}
+%\def\endttabular{%
+%\crcr\egroup\egroup}
 
