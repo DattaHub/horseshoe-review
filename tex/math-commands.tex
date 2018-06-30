@@ -77,7 +77,7 @@
 \newcommand{\R}{{\bf R}}
 %\renewcommand{\S}{{\bf S}}
 \newcommand{\T}{{\bf T}}
-%\renewcommand{\U}{{\bf U}}
+\newcommand{\U}{{\bf U}}
 \newcommand{\V}{\mathbb V}
 \newcommand{\W}{{\bf W}}
 \newcommand{\X}{{\bf X}}
@@ -125,6 +125,12 @@
 %\newcommand{\comment}[1]{}
 
 \newcommand{\bs}{\backslash}
+\newcommand{\ben}{\begin{enumerate}}
+\newcommand{\een}{\end{enumerate}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\newcommand{\bde}{\begin{description}}
+\newcommand{\ede}{\end{description}}
 
  \newcommand{\notS}{{\backslash S}}
  \newcommand{\nots}{{\backslash s}}
@@ -182,7 +188,7 @@
 % the last {} is a hack for double subscript errors
 \newcommand{\estHsp}{\ensuremath{{\hat{\theta}}_{HS+}}{}}
 \newcommand{\estHs}{\ensuremath{{\hat{\theta}}_{HS}}{}}
-\newcommand{\estJs}{\ensuremath{{\hat{\theta}}_{JS}}{}}
+\newcommand{\estJs}{\ensuremath{{\hat{\btheta}}_{JS}}{}}
 \newcommand{\MSE}{\mathrm{MSE}}
 %
 % Meijer-G additions
@@ -208,26 +214,65 @@
 %%\WithSuffix\newcommand\pFq*[5]{{}_{#1}F_{#2}\pFqM*{#3}{#4}{#5}}
 %%% end pFq
 %%
-\newtheorem{theorem}{THEOREM}
-\numberwithin{theorem}{section}
-\newtheorem{Proof}{PROOF}
-\newtheorem{Def}{DEFINITION}
-\numberwithin{Def}{section}
-\newtheorem{remark}{REMARK}
-\numberwithin{remark}{section}
-\newtheorem{Qes}{Question}
-\newtheorem{proposition}{PROPOSITION}
-\numberwithin{proposition}{section}
-\newtheorem{lemma}{LEMMA}
-\numberwithin{lemma}{section}
-\newtheorem{Cor}{COROLLARY}
-\numberwithin{Cor}{section}
-\newtheorem{Exa}{Example}
-\newtheorem{Eq}{Equation}
-\newtheorem{assn}{ASSUMPTION}
-%\newtheorem{result}[theorem]{Result}
-\newtheorem{result}[theorem]{RESULT}
+%\newtheorem{theorem}{THEOREM}
+%\numberwithin{theorem}{section}
+%\newtheorem{Proof}{PROOF}
+%\newtheorem{Def}{DEFINITION}
+%\numberwithin{Def}{section}
+%\newtheorem{remark}{REMARK}
+%\numberwithin{remark}{section}
+%\newtheorem{Qes}{Question}
+%\newtheorem{proposition}{PROPOSITION}
+%\numberwithin{proposition}{section}
+%\newtheorem{lemma}{LEMMA}
+%\numberwithin{lemma}{section}
+%\newtheorem{Cor}{COROLLARY}
+%\numberwithin{Cor}{section}
+%\newtheorem{Exa}{Example}
+%\newtheorem{Eq}{Equation}
+%\newtheorem{assn}{ASSUMPTION}
+%%\newtheorem{result}[theorem]{Result}
+%\newtheorem{result}[theorem]{RESULT}
 %%
+
+
+%\theoremstyle{slplain}
+
+\newtheoremstyle{mystyle}%                % Name
+  {0.2in}%                                     % Space above
+  {}%                                     % Space below
+  {\sl}%                                     % Body font
+  {}%                                     % Indent amount
+  {\bfseries}%                            % Theorem head font
+  {.}%                                    % Punctuation after theorem head
+  { }%                                    % Space after theorem head, ' ', or \newline
+  {}%                                     % Theorem head spec (can be left empty, meaning `normal')
+
+\theoremstyle{mystyle}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+%\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+
+
 %%\usepackage{booktabs,array}
 %%\def\Midrule{\midrule[\heavyrulewidth]}
 %%\newcount\rowc
